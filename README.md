@@ -1,4 +1,4 @@
-# ASHWING — Wildfire Airtanker
+# SMOKEWING — Wildfire Airtanker
 
 ![Best Flight Game](https://make.fun/badge/best-flight-game-20261126-0057.svg)
 ![Rank](https://make.fun/badge/best-flight-game-20261126-0057/junod1908/best-flight-game-20261126-0057/rank.svg)

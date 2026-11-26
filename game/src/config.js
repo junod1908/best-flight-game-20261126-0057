@@ -1,4 +1,4 @@
-// Tunables for ASHWING — Wildfire Airtanker. One place for every number the flight model,
+// Tunables for SMOKEWING — Wildfire Airtanker. One place for every number the flight model,
 // the fire spread and the missions use, so a balance pass touches this file only.
 export const WORLD = {
   size: 2600,

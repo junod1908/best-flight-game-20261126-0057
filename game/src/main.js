@@ -1,4 +1,4 @@
-// ASHWING — Wildfire Airtanker. Entry point: builds the world, runs the loop, and stages
+// SMOKEWING — Wildfire Airtanker. Entry point: builds the world, runs the loop, and stages
 // deterministic screenshot scenes (?shot=cover|drop|scoop|approach&seed=1).
 import { createRandom } from './random.js';
 import { WORLD, SHOT } from './config.js';
@@ -113,9 +113,28 @@ function updateCamera(world, dt) {
   const f = world.flight;
   const fx = Math.sin(f.heading);
   const fz = -Math.cos(f.heading);
-  const tx = f.x - fx * 48;
-  const ty = f.y + 13;
-  const tz = f.z - fz * 48;
+  let tx, ty, tz, lx, ly, lz;
+  if (world.shotCam === 'side') {
+    // Side profile for the drop shot: the camera sits abeam the plane and looks just ahead
+    // of it, so the plane stays in frame while the water column and the fire line ahead
+    // both read. (lookAt only a little ahead: aiming 60 out pushed the plane to the
+    // frame edge, because the view axis swung past it.)
+    const rx = Math.cos(f.heading);
+    const rz = Math.sin(f.heading);
+    tx = f.x + rx * 70;
+    ty = f.y + 14;
+    tz = f.z + rz * 70;
+    lx = f.x + fx * 25;
+    ly = f.y;
+    lz = f.z + fz * 25;
+  } else {
+    tx = f.x - fx * 48;
+    ty = f.y + 13;
+    tz = f.z - fz * 48;
+    lx = f.x + fx * 55;
+    ly = f.y + 1;
+    lz = f.z + fz * 55;
+  }
   if (!camInit) {
     camPos.x = tx; camPos.y = ty; camPos.z = tz;
     camInit = true;
@@ -128,7 +147,7 @@ function updateCamera(world, dt) {
   const ground = groundHeight(camPos.x, camPos.z);
   if (camPos.y < ground + 4) camPos.y = ground + 4;
   world.camera.position.set(camPos.x, camPos.y, camPos.z);
-  world.camera.lookAt(f.x + fx * 55, f.y + 1, f.z + fz * 55);
+  world.camera.lookAt(lx, ly, lz);
 }
 
 function showOverlay(html) {
@@ -143,7 +162,7 @@ function hideOverlay() {
 }
 
 function titleCard() {
-  return `<div class="card"><h1>ASHWING</h1><h2>WILDFIRE AIRTANKER &mdash; Pine Hollow Valley</h2>
+  return `<div class="card"><h1>SMOKEWING</h1><h2>WILDFIRE AIRTANKER &mdash; Pine Hollow Valley</h2>
   <p>Three fires are spreading downwind across the valley. Take off from the dirt strip,
   skim the lake low and level to scoop a full tank, then drop it on the fire front.
   A full tank is heavy and thirsty &mdash; watch your fuel, mind the smoke, and land back
@@ -223,7 +242,7 @@ if (shot) {
     }
     if (edges.pause && world.state.screen === SCREEN_PLAY) {
       paused = !paused;
-      world.state.banner = paused ? 'PAUSED — press P to resume' : 'ASHWING — WILDFIRE AIRTANKER';
+      world.state.banner = paused ? 'PAUSED — press P to resume' : 'SMOKEWING — WILDFIRE AIRTANKER';
     }
     if (world.state.screen === SCREEN_TITLE) {
       if (frame.anyKey) { audio.ensure(); world.startPlay(); }

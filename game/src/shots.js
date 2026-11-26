@@ -124,22 +124,31 @@ export function stageShot(name, world) {
       if (name === 'cover') return st.water <= 78 && st.water > 0 && world.water.dropping;
       return st.water <= 42 && st.water > 0;
     }, 240);
+    // The drop shot is staged from a side profile instead of the chase view, so the
+    // contact sheet shows a different moment from the cover: the plane abeam, the water
+    // column falling, and the fire line ahead of it.
+    if (name === 'drop') world.shotCam = 'side';
   } else if (name === 'approach') {
     // Final approach from the WEST, landing eastbound: the valley west of the strip is low,
     // so the plane can descend gently onto final. (An eastbound final failed twice — the
-    // eastern ridge is too high to drop behind.) The shot only ends once the plane is
-    // lined up with the runway — a frame mid-turn shows the valley, not the strip.
+    // eastern ridge is too high to drop behind.) The last leg runs straight down the runway
+    // centreline, so the shot only ends once the wings are level, the heading is on the
+    // runway, and the strip is centred in front of the plane — a frame mid-turn shows
+    // the valley, not the strip.
     const finalX = strip.x - 320;
     const finalY = groundHeight(finalX, strip.z) + 22;
     flyPlan(world, [
       { x: strip.x - 500, z: strip.z - 100, alt: 150, radius: 150 },
       { x: strip.x - 700, z: strip.z + 400, alt: 120, radius: 150 },
-      { x: strip.x - 300, z: strip.z + 350, alt: 80, radius: 90 },
+      { x: strip.x - 600, z: strip.z, alt: 100, radius: 90 },
       { x: finalX, z: strip.z, alt: finalY, radius: 60 },
     ], (st) => {
-      const aligned = Math.abs(headingError(st.flight.heading, Math.PI / 2)) < 0.45;
-      return aligned && dist2d(st.flight.x, st.flight.z, finalX, strip.z) < 80
-        && st.flight.y < groundHeight(finalX, strip.z) + 40;
+      const aligned = Math.abs(headingError(st.flight.heading, Math.PI / 2)) < 0.15;
+      const level = Math.abs(st.flight.roll) < 0.12;
+      const onCentreline = Math.abs(st.flight.z - strip.z) < 25;
+      return aligned && level && onCentreline
+        && dist2d(st.flight.x, st.flight.z, finalX, strip.z) < 60
+        && st.flight.y < groundHeight(finalX, strip.z) + 35;
     }, 240);
   }
   return { screen: s.screen };

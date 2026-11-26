@@ -1,4 +1,4 @@
-// ASHWING — Wildfire Airtanker entry program (Node 22, standard library only).
+// SMOKEWING — Wildfire Airtanker entry program (Node 22, standard library only).
 // It hands the game in: copies this repository's game/ and screenshots/ into the output
 // directory and writes /output/dossier.json with the vendored make.fun library.
 // Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output:

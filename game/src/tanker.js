@@ -1,9 +1,9 @@
-// The ASHWING airtanker, built from primitives: red-and-cream single-engine tanker with a
+// The SMOKEWING airtanker, built from primitives: red-and-cream single-engine tanker with a
 // belly tank, high wing, floats and a spinning prop. No textures, no external assets.
 export function buildTanker() {
   const THREE = window.THREE;
   const plane = new THREE.Group();
-  plane.name = 'ashwing';
+  plane.name = 'smokewing';
 
   const red = new THREE.MeshLambertMaterial({ color: 0xc23a1e });
   const cream = new THREE.MeshLambertMaterial({ color: 0xf2e6c8 });

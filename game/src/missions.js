@@ -20,7 +20,7 @@ export function createMissionState() {
     zonesContained: 0,
     activeZoneIndex: 0,
     firesOut: 0,
-    banner: 'ASHWING — WILDFIRE AIRTANKER',
+    banner: 'SMOKEWING — WILDFIRE AIRTANKER',
     message: '',
     messageUntil: 0,
     wind: 1,
