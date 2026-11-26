@@ -9,8 +9,10 @@ export function createRandom(seed) {
   };
 }
 
-// Integer range helper on a seeded rng.
+// Integer range helper on a seeded rng. A swapped range still works: the bounds are
+// ordered first, so a caller passing (max, min) by mistake gets the same range.
 export function randomInt(rng, min, max) {
+  if (min > max) [min, max] = [max, min];
   return min + Math.floor(rng() * (max - min + 1));
 }
 

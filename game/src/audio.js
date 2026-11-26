@@ -41,9 +41,10 @@ export function createAudio() {
     audio.engine[0].frequency.setTargetAtTime(52 + throttle * 48 + speed * 0.2, t, 0.1);
     audio.engine[1].frequency.setTargetAtTime(78 + throttle * 72 + speed * 0.3, t, 0.1);
   };
-  // Short filtered-noise whoosh when the tank opens.
+  // Short filtered-noise whoosh when the tank opens. Skipped while the context is
+  // suspended (before the first gesture) so no node is scheduled on a dead context.
   audio.whoosh = () => {
-    if (!audio.ctx || audio.muted) return;
+    if (!audio.ctx || audio.muted || audio.ctx.state !== 'running') return;
     const ctx = audio.ctx;
     const dur = 0.7;
     const buffer = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);

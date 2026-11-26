@@ -37,6 +37,9 @@ export function updateHud(hud, state) {
   hud.wind.textContent = `W ${Math.round(10 + state.wind * 6)}`;
   hud.banner.textContent = state.banner;
   hud.msg.textContent = state.message || '';
+  // Hide the message line entirely when there is nothing to say, so it never leaves a
+  // faint empty pill over the terrain.
+  hud.msg.style.opacity = state.message ? '1' : '0';
 }
 
 // Show a transient message under the banner (scoop, drop, contained...).

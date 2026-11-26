@@ -12,6 +12,13 @@ import { buildDossier } from './vendor/makefun-game.ts';
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
+if (!existsSync(join(here, 'game'))) {
+  throw new Error('game/ is missing from the repository — nothing to hand in');
+}
+if (!existsSync(join(here, 'screenshots'))) {
+  throw new Error('screenshots/ is missing from the repository — nothing to hand in');
+}
+
 mkdirSync(out, { recursive: true });
 cpSync(join(here, 'game'), join(out, 'game'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });

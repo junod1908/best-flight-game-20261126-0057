@@ -19,7 +19,7 @@ export function createInput(canvas) {
     if (e.repeat) return;
     keys.add(k);
     input.anyKey = true;
-    if (k === 'p') input.pausePressed = true;
+    if (k === 'p' || k === 'Escape') input.pausePressed = true;
     if (k === 'r') input.restartPressed = true;
     if (k === 'm') input.mutePressed = true;
   });
